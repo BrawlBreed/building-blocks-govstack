@@ -4,6 +4,7 @@ import com.alibou.school.client.StudentClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,13 +24,15 @@ public class SchoolService {
 
     public FullSchoolResponse findSchoolsWithStudents(Integer schoolId) {
         var school = repository.findById(schoolId)
-                .orElse(
-                        School.builder()
-                                .name("NOT_FOUND")
-                                .email("NOT_FOUND")
-                                .build()
-                );
-        var students = client.findAllStudentsBySchool(schoolId);
+                .orElseThrow(() -> new RuntimeException("School with ID " + schoolId + " not found"));
+
+        List<Student> students;
+        try {
+            students = client.findAllStudentsBySchool(schoolId);
+        } catch (Exception e) {
+            students = Collections.emptyList(); // Prevent failure if students service is down
+        }
+
         return FullSchoolResponse.builder()
                 .name(school.getName())
                 .email(school.getEmail())

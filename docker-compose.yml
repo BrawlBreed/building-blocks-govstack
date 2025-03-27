@@ -1,4 +1,6 @@
 services:
+  config-server:
+
   postgresql:
     container_name: postgresql
     image: postgres

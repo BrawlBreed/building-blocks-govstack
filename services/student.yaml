@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student
+spec:
+  selector:
+    matchLabels:
+      app: student
+  template:
+    metadata:
+      labels:
+        app: student
+    spec:
+      containers:
+        - name: student
+          imagePullPolicy: Never
+          image: student-service
+          ports:
+            - containerPort: 8090
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgresql:5432/students
+            - name: SPRING_DATASOURCE_USERNAME
+              value: admin
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: admin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: student-service
+spec:
+  selector:
+    app: student
+  ports:
+    - port: 8090
+      targetPort: 8090
+  type: ClusterIP

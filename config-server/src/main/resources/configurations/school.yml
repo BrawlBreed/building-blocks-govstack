@@ -1,0 +1,41 @@
+server:
+  port: 8070
+
+spring:
+  application:
+    name: school
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgresql:5432/schools
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.query.mutation_strategy: org.hibernate.query.sqm.mutation.internal.inline.InlineMutationStrategy
+  sql:
+    init:
+      mode: always
+
+application:
+  config:
+    students-url: http://gateway-service:8222/api/v1/students
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html

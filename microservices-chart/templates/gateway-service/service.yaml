@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.gatewayService.name }}
+spec:
+  selector:
+    app: {{ .Values.gatewayService.name }}
+  ports:
+    - port: {{ .Values.gatewayService.port }}
+      targetPort: {{ .Values.gatewayService.port }}
+  type: ClusterIP

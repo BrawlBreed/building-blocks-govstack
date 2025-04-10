@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.configService.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.configService.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.configService.name }}
+    spec:
+      containers:
+        - name: {{ .Values.configService.name }}
+          image: {{ .Values.configService.image }}
+          imagePullPolicy: {{ .Values.configService.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.configService.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.configService.springProfile }}

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.gatewayService.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.gatewayService.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.gatewayService.name }}
+    spec:
+      containers:
+        - name: {{ .Values.gatewayService.name }}
+          imagePullPolicy: {{ .Values.gatewayService.imagePullPolicy }}
+          image: {{ .Values.gatewayService.image }}
+          ports:
+            - containerPort: {{ .Values.gatewayService.port }}

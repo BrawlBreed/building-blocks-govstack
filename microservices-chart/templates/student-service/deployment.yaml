@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.studentService.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.studentService.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.studentService.name }}
+    spec:
+      containers:
+        - name: {{ .Values.studentService.name }}
+          image: {{ .Values.studentService.image }}
+          imagePullPolicy: {{ .Values.studentService.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.studentService.port }}
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: {{ .Values.studentService.env.datasourceUrl }}
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.studentService.env.username }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.studentService.env.password }}

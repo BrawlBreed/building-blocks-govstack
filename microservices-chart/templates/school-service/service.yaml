@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.schoolService.serviceName }}
+spec:
+  selector:
+    app: {{ .Values.schoolService.name }}
+  ports:
+    - port: {{ .Values.schoolService.port }}
+      targetPort: {{ .Values.schoolService.port }}
+  type: ClusterIP
